@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Demo — Chatbot con Ollama</title>
+</head>
+<body style="font-family:system-ui,sans-serif;max-width:640px;margin:60px auto;padding:0 20px;color:#111">
+  <h1>Mi sitio web</h1>
+  <p>Esta es una pagina de ejemplo. El chatbot aparece como un boton flotante abajo a la derecha. 👉</p>
+  <p>Abrilo, escribí "Hola" y probá preguntarle por los servicios.</p>
+
+  <!-- Configuracion del widget -->
+  <script>
+    window.CHATBOT_API = 'http://localhost:8080/chat';   // cambia por la URL de tu proxy en produccion
+    window.CHATBOT_NAME = 'Asistente de Mi Negocio';
+    window.CHATBOT_WELCOME = 'Hola! Soy el asistente virtual. En que te ayudo?';
+    window.CHATBOT_ACCENT = '#2563eb';
+  </script>
+  <script src="widget.js" defer></script>
+</body>
+</html>

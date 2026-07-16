@@ -1,0 +1,12 @@
+# Dependencias
+node_modules/
+
+# Secretos / config local — NUNCA subir la API key
+.env
+examples/.env
+
+# Logs y temporales
+*.log
+npm-debug.log*
+.DS_Store
+Thumbs.db
