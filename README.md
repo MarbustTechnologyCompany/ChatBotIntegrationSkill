@@ -34,6 +34,7 @@ ChatBotIntegrationSkill/
 ├─ README.md             <- este archivo
 ├─ LICENSE               <- MIT (libre para usar en tu negocio)
 ├─ .gitignore
+├─ wordpress-plugin/     <- PLUGIN de WordPress instalable (carpeta mb-chatbot)
 └─ examples/
    ├─ server.js          <- proxy Node.js (OpenAI-compatible, streaming, failover)
    ├─ proxy.php          <- proxy PHP (para hosting cPanel/WordPress)
@@ -70,6 +71,18 @@ proyecto) y pedile a Claude "ayudame a integrar el chatbot con Ollama". También
 como guía normal leyendo `SKILL.md`.
 
 ---
+
+## 🔌 Plugin de WordPress (instalable)
+
+Si tu sitio es **WordPress**, la forma más fácil es el plugin en `wordpress-plugin/mb-chatbot/`:
+
+1. Comprimí la carpeta `mb-chatbot` en `.zip` y subila en **Plugins → Añadir nuevo → Subir plugin** (o copiá la carpeta a `/wp-content/plugins/`).
+2. Activalo y andá a **Ajustes → Chatbot IA**.
+3. Elegí el modo:
+   - **Ollama directo** — pegás tu API key de Ollama Cloud + escribís tu contexto. Sin servidor aparte (WordPress mismo llama a Ollama; la key queda del lado del server).
+   - **Backend externo** — lo apuntás a tu propia API (`{message, history, site}` → `{reply}`), si ya tenés un backend de chatbot.
+
+La API key **nunca** sale al navegador: el plugin llama a Ollama/tu backend desde el servidor vía su propio endpoint REST (`/wp-json/mbchat/v1/message`).
 
 ## 👤 Autoría
 

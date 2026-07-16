@@ -121,6 +121,8 @@ Antes de `</body>`:
 
 Aparece un botón 💬 abajo a la derecha. El widget **recuerda la conversación** de esa visita (manda el historial al backend) y muestra la respuesta en vivo. Para WordPress: pegá ese bloque en el footer del tema.
 
+> **¿Tu sitio es WordPress?** Usá el **plugin instalable** en `wordpress-plugin/mb-chatbot/` (panel en Ajustes → Chatbot IA): más fácil que pegar scripts, con configuración visual y soporte para *Ollama directo* o *Backend externo*. Ver el README.
+
 ---
 
 ## 6. El contexto que VENDE (lo más importante)
