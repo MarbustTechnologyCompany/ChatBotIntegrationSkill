@@ -18,6 +18,15 @@
   var ACCENT = window.CHATBOT_ACCENT || '#2563eb';
   var history = [];
 
+  // Render seguro de markdown basico (negritas, links, saltos). Escapa HTML primero.
+  function mdToHtml(s) {
+    var e = String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    e = e.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+    e = e.replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+|mailto:[^\s)]+|tel:[^\s)]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>');
+    e = e.replace(/\n/g, '<br>');
+    return e;
+  }
+
   var css = ''
     + '.cbw-btn{position:fixed;bottom:20px;right:20px;width:56px;height:56px;border-radius:50%;background:' + ACCENT + ';color:#fff;border:none;cursor:pointer;box-shadow:0 6px 20px rgba(0,0,0,.25);font-size:24px;z-index:99999;display:flex;align-items:center;justify-content:center}'
     + '.cbw-panel{position:fixed;bottom:88px;right:20px;width:360px;max-width:calc(100vw - 40px);height:520px;max-height:calc(100vh - 120px);background:#fff;border-radius:16px;box-shadow:0 12px 40px rgba(0,0,0,.28);display:none;flex-direction:column;overflow:hidden;z-index:99999;font-family:system-ui,-apple-system,sans-serif}'
@@ -84,12 +93,12 @@
             if (ln.indexOf('data: ') !== 0) continue;
             var payload = ln.slice(6);
             if (payload === '[DONE]') continue;
-            try { acc += JSON.parse(payload); out.textContent = acc; body.scrollTop = body.scrollHeight; } catch (e) {}
+            try { acc += JSON.parse(payload); out.innerHTML = mdToHtml(acc); body.scrollTop = body.scrollHeight; } catch (e) {}
           }
         }
       } else {
         // Respuesta JSON simple (proxy PHP)
-        var data = await resp.json(); acc = data.reply || '...'; out.textContent = acc;
+        var data = await resp.json(); acc = data.reply || '...'; out.innerHTML = mdToHtml(acc);
       }
     } catch (e) {
       acc = 'No pude conectarme. Proba de nuevo en un momento.'; out.textContent = acc;

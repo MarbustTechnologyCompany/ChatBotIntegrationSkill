@@ -13,6 +13,15 @@
   var ACCENT = C.accent || '#2563eb';
   var history = [];
 
+  // Render seguro de markdown basico (negritas, links, saltos). Escapa HTML primero.
+  function mdToHtml(s) {
+    var e = String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    e = e.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+    e = e.replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+|mailto:[^\s)]+|tel:[^\s)]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>');
+    e = e.replace(/\n/g, '<br>');
+    return e;
+  }
+
   var css = ''
     + '.mbc-btn{position:fixed;bottom:20px;right:20px;width:56px;height:56px;border-radius:50%;background:' + ACCENT + ';color:#fff;border:none;cursor:pointer;box-shadow:0 6px 20px rgba(0,0,0,.25);font-size:24px;z-index:99999;display:flex;align-items:center;justify-content:center}'
     + '.mbc-panel{position:fixed;bottom:88px;right:20px;width:360px;max-width:calc(100vw - 40px);height:520px;max-height:calc(100vh - 120px);background:#fff;border-radius:16px;box-shadow:0 12px 40px rgba(0,0,0,.28);display:none;flex-direction:column;overflow:hidden;z-index:99999;font-family:system-ui,-apple-system,sans-serif}'
@@ -69,7 +78,7 @@
       } catch (e) {
         reply = 'No pude conectarme. Proba de nuevo en un momento.';
       }
-      out.textContent = reply;
+      out.innerHTML = mdToHtml(reply);
       history.push({ role: 'assistant', content: reply });
       if (history.length > 24) history = history.slice(-24);
       sendBtn.disabled = false; input.focus();
