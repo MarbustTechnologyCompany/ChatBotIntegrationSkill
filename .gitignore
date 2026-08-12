@@ -4,6 +4,9 @@ node_modules/
 # Secretos / config local — NUNCA subir la API key
 .env
 examples/.env
+chatbot-config.ini
+examples/chatbot-config.ini
+!examples/chatbot-config.example.ini
 
 # Logs y temporales
 *.log

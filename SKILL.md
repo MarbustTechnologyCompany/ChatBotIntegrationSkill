@@ -100,9 +100,18 @@ curl http://127.0.0.1:8080/health   # {"ok":true, providers:[...]}
 ```
 
 ### Opción B — PHP (hosting compartido / WordPress)
-1. Subí `proxy.php` y `context.md` a una carpeta del sitio (ej. `/public_html/chat/`).
-2. Poné la API key y el modelo (por variables de entorno o editando el arriba del `proxy.php`).
+
+1. Subí a una carpeta del sitio (ej. `/public_html/chat/`): **`proxy.php`, `context.md` y `.htaccess`**.
+2. Copiá `chatbot-config.example.ini` como `chatbot-config.ini` y subilo **un nivel arriba** de esa carpeta (en el ejemplo: `/public_html/`). Ahí va tu API key, los dominios permitidos y el límite por hora.
 3. Endpoint: `https://tudominio.com/chat/proxy.php`. (El PHP no hace streaming; el texto llega de golpe. El widget lo soporta igual.)
+
+**Los tres archivos son obligatorios, no opcionales.** Esto salió de montar el patrón en un cliente real y revisar qué quedaba expuesto:
+
+- **`context.md` en la carpeta pública se puede leer desde el navegador.** Si lo subís sin el `.htaccess`, cualquiera abre `https://tusitio.com/chat/context.md` y ve tus precios, tus márgenes y las reglas internas que le diste al bot. El `.htaccess` bloquea `.md`, `.ini`, `.txt` y los `.bak`.
+- **La API key no va dentro del `proxy.php`.** Va en el `.ini` fuera del docroot. El día que el servidor deje de ejecutar PHP —módulo caído, una migración, un backup que queda como `proxy.php.bak`— el archivo se sirve como texto plano y la key queda publicada. Fuera del docroot eso no puede pasar.
+- **El rate limit por IP es lo único que protege tu cuota gratis.** El chequeo de `Origin` frena que otro sitio web te use el bot, pero **no es una barrera de seguridad**: cualquiera lo falsea con `curl`. Sin límite por hora, una persona sola te quema el free tier de la semana.
+
+> **Datos que cambian (precios, cifras del año, stock):** en vez de reescribir `context.md` cada vez, dejá un token como `{{INDICADORES}}` y sustituilo en el `proxy.php` con el dato vivo (hay un ejemplo comentado en el archivo). Así el bot nunca contradice a la web. Si tenés base de datos, el paso siguiente es guardar el prompt ahí y dejar el `.md` solo como editor: corregir al bot deja de requerir un deploy.
 
 ---
 
@@ -133,6 +142,7 @@ El 90% del resultado depende de `context.md`. Estas reglas son las que aprendimo
 - **No inventa.** Solo precios/datos que estén en el contexto. Si no está → deriva a WhatsApp/tienda. (Los modelos débiles inventan precios; por eso hay que ser explícito.)
 - **Solo el negocio.** Off-topic (una tarea de mates) → reencauza con amabilidad, no la respondas.
 - **Idioma del cliente.** Regla al INICIO y explícita (responder en inglés si escriben en inglés).
+- **El tono también se declara, si no el modelo elige por su cuenta.** Nos pasó con un cliente: toda la web tuteaba y el bot contestaba de "usted", así que sonaba a otra empresa. Poné el registro por escrito y con ejemplos de las palabras que querés: *"tutea siempre (tú, tu operación, escríbenos), nunca 'usted' ni voseo"*.
 - **Enlaces clicables.** Correo/WhatsApp/web siempre en markdown (`[texto](url)`), nunca crudos.
 - **No parrotear.** "Redactá con tus propias palabras, no digas 'por ejemplo'." (Los modelos débiles copian los ejemplos literal.)
 - **Nada de JSON.** Prohibir objetos/llamadas a funciones (por si el modelo es "tool-happy").

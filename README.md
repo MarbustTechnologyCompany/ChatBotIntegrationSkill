@@ -41,7 +41,9 @@ ChatBotIntegrationSkill/
    ├─ widget.js          <- el chat embebible (botón flotante) + memoria, sin dependencias
    ├─ context.md         <- el "cerebro" del bot: editá con los datos de tu negocio
    ├─ index.html         <- página demo
-   ├─ .env.example       <- configuración (copiá a .env y pegá tu API key)
+   ├─ .env.example       <- configuración del proxy Node (copiá a .env y pegá tu API key)
+   ├─ chatbot-config.example.ini <- configuración del proxy PHP (va FUERA del docroot)
+   ├─ .htaccess          <- bloquea context.md y los .bak por web (subilo junto al proxy PHP)
    └─ package.json       <- dependencias del proxy Node
 ```
 

@@ -1,0 +1,12 @@
+# El prompt del negocio NO debe poder leerse desde el navegador.
+# Sin esto, cualquiera abre https://tusitio.com/chat/context.md y ve tus
+# precios, tus reglas internas y todo lo que le pusiste al bot.
+<FilesMatch "\.(md|ini|txt|example|bak|log)$">
+  Require all denied
+</FilesMatch>
+
+# Y por si el servidor alguna vez deja de ejecutar PHP, que no sirva el codigo
+# (con la key adentro) como texto plano.
+<FilesMatch "\.php\.(bak|old|save|swp|orig)$">
+  Require all denied
+</FilesMatch>
