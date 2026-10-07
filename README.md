@@ -7,6 +7,8 @@ con contexto de venta por negocio, memoria de conversación y failover.
 
 > Pensado para que **cualquier persona pueda ponerle un chatbot a su negocio** fácil y gratis.
 
+> **¿Quieres contribuir?** Abre un issue o un PR. Guía: [`CONTRIBUTING.md`](CONTRIBUTING.md) · reglas técnicas y de seguridad: [`AGENTS.md`](AGENTS.md) · primer día: [`docs/ONBOARDING.md`](docs/ONBOARDING.md) · reportar una vulnerabilidad en privado: [`SECURITY.md`](SECURITY.md).
+
 ---
 
 ## 💬 ¿Cuántos mensajes gratis por mes?
